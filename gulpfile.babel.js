@@ -10,9 +10,9 @@ import inject from 'gulp-inject';
 import order from 'gulp-order';
 import path from 'path';
 import config from './build.config';
+import eslint from 'gulp-eslint';
 
 const sync = gulpsync(gulp);
-
 
 gulp.task('clean', () => {
   return del(['dist']);
@@ -60,10 +60,16 @@ gulp.task('html', () => {
       addRootSlash: false
     }))
     .pipe(gulp.dest('dist'));
-
 });
 
-gulp.task('transpile', sync.sync(['clean', 'js', 'vendor', 'html']));
+gulp.task('lint', () => {
+  return gulp
+    .src(['gulpfile.babel.js', 'src/**/*.js', 'src/**/*.jsx'])
+    .pipe(eslint())
+    .pipe(eslint.format());
+});
+
+gulp.task('transpile', sync.sync(['clean', ['lint', 'js'], 'vendor', 'html']));
 
 gulp.task('start-server', ['transpile'], () => {
   const connectOptions = {
@@ -83,7 +89,6 @@ gulp.task('start-server', ['transpile'], () => {
 
   gulp.src('./dist/index.html')
     .pipe(open(openOptions));
-
 });
 
 gulp.task('default', ['start-server']);

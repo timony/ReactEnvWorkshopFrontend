@@ -5,6 +5,9 @@ import babelify from 'babelify';
 import browserify from 'browserify';
 import del from 'del';
 import source from 'vinyl-source-stream';
+import gulpsync from 'gulp-sync';
+
+const sync = gulpsync(gulp);
 
 gulp.task('clean', () => {
   return del(['dist']);
@@ -25,7 +28,7 @@ gulp.task('js', () => {
     .pipe(gulp.dest('./dist/js'));
 });
 
-gulp.task('transpile', ['js', 'html']);
+gulp.task('transpile', sync.sync(['clean', ['js', 'html']]));
 
 gulp.task('html', () => {
   gulp.src('src/index.html')

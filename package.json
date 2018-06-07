@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "React Workshop app",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -26,10 +23,39 @@
     "gulp-open": "^3.0.1",
     "gulp-order": "^1.1.1",
     "gulp-sync": "^0.1.4",
+    "jest": "^23.1.0",
+    "react-test-renderer": "^16.4.0",
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "rootDir": ".",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "cacheDirectory": "<rootDir>/.jest/",
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!tieto-*).+\\.(js|jsx)$"
+    ],
+    "timers": "fake",
+    "testURL": "http://localhost/#",
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
   }
 }

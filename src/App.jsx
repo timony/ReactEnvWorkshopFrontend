@@ -3,5 +3,5 @@ import {render} from 'react-dom';
 import Home from 'ui/pages/Home';
 
 document.addEventListener('DOMContentLoaded', () => {
-  render(<Home/>, document.getElementById('root'));
+  render(<Home value="Tieto"/>, document.getElementById('root'));
 });

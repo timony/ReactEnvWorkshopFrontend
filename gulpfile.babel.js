@@ -11,6 +11,7 @@ import order from 'gulp-order';
 import path from 'path';
 import config from './build.config';
 import eslint from 'gulp-eslint';
+import jest from 'jest';
 
 const sync = gulpsync(gulp);
 
@@ -67,6 +68,21 @@ gulp.task('lint', () => {
     .src(['gulpfile.babel.js', 'src/**/*.js', 'src/**/*.jsx'])
     .pipe(eslint())
     .pipe(eslint.format());
+});
+
+gulp.task('test', done => {
+  jest.runCLI(
+    {coverage: true},
+    [__dirname]
+  )
+    .then(({results}) => {
+      if (results.success) {
+        done();
+      } else {
+        throw new Error('Tests failed!');
+      }
+    })
+    .catch(done);
 });
 
 gulp.task('transpile', sync.sync(['clean', ['lint', 'js'], 'vendor', 'html']));

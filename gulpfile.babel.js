@@ -31,7 +31,8 @@ gulp.task('js', () => {
     .transform(babelify)
     .bundle()
     .pipe(source('app.js'))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('dist/js'))
+    .pipe(connect.reload());
 });
 
 gulp.task('vendor', () => {
@@ -60,7 +61,8 @@ gulp.task('html', () => {
       ignorePath: 'dist',
       addRootSlash: false
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
+    .pipe(connect.reload());
 });
 
 gulp.task('lint', () => {
@@ -107,5 +109,9 @@ gulp.task('start-server', ['transpile'], () => {
     .pipe(open(openOptions));
 });
 
-gulp.task('default', ['start-server']);
+gulp.task('watch', () => {
+  gulp.watch('./src/**', ['js', 'html']);
+});
+
+gulp.task('default', ['start-server', 'watch']);
 
